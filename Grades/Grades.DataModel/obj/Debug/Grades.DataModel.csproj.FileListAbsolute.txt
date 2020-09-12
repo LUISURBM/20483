@@ -1,0 +1,10 @@
+C:\Users\USER\ws\20483-Programming-in-C-Sharp-master\Allfiles\Mod08\Labfiles\Starter\Exercise 3\Grades.DataModel\bin\Debug\Grades.DataModel.dll.config
+C:\Users\USER\ws\20483-Programming-in-C-Sharp-master\Allfiles\Mod08\Labfiles\Starter\Exercise 3\Grades.DataModel\bin\Debug\Grades.DataModel.dll
+C:\Users\USER\ws\20483-Programming-in-C-Sharp-master\Allfiles\Mod08\Labfiles\Starter\Exercise 3\Grades.DataModel\bin\Debug\Grades.DataModel.pdb
+C:\Users\USER\ws\20483-Programming-in-C-Sharp-master\Allfiles\Mod08\Labfiles\Starter\Exercise 3\Grades.DataModel\bin\Debug\EntityFramework.dll
+C:\Users\USER\ws\20483-Programming-in-C-Sharp-master\Allfiles\Mod08\Labfiles\Starter\Exercise 3\Grades.DataModel\bin\Debug\EntityFramework.xml
+C:\Users\USER\ws\20483-Programming-in-C-Sharp-master\Allfiles\Mod08\Labfiles\Starter\Exercise 3\Grades.DataModel\obj\Debug\Grades.DataModel.csprojAssemblyReference.cache
+C:\Users\USER\ws\20483-Programming-in-C-Sharp-master\Allfiles\Mod08\Labfiles\Starter\Exercise 3\Grades.DataModel\obj\Debug\Grades.DataModel.csproj.CoreCompileInputs.cache
+C:\Users\USER\ws\20483-Programming-in-C-Sharp-master\Allfiles\Mod08\Labfiles\Starter\Exercise 3\Grades.DataModel\obj\Debug\Grades.DataModel.csproj.CopyComplete
+C:\Users\USER\ws\20483-Programming-in-C-Sharp-master\Allfiles\Mod08\Labfiles\Starter\Exercise 3\Grades.DataModel\obj\Debug\Grades.DataModel.dll
+C:\Users\USER\ws\20483-Programming-in-C-Sharp-master\Allfiles\Mod08\Labfiles\Starter\Exercise 3\Grades.DataModel\obj\Debug\Grades.DataModel.pdb

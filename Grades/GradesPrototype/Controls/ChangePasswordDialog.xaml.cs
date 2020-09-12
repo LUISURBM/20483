@@ -11,8 +11,9 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
-using GradesPrototype.Data;
 using GradesPrototype.Services;
+using Grades.DataModel;
+
 
 namespace GradesPrototype.Controls
 {
@@ -30,17 +31,17 @@ namespace GradesPrototype.Controls
         private void ok_Click(object sender, RoutedEventArgs e)
         {
             // Get the details of the current user
-            User currentUser;
+            Grades.DataModel.User currentUser;
             if (SessionContext.UserRole == Role.Teacher)
             {
-                currentUser = SessionContext.CurrentTeacher;
+                currentUser = SessionContext.CurrentTeacher.User;
             }
             else
             {
-                currentUser = SessionContext.CurrentStudent;
+                currentUser = SessionContext.CurrentStudent.User;
             }
 
-            // Check that the old password is correct for the current user
+             // Check that the old password is correct for the current user
             string oldPwd = oldPassword.Password;
             if (!currentUser.VerifyPassword(oldPwd))
             {
@@ -60,11 +61,13 @@ namespace GradesPrototype.Controls
 
             // Attempt to change the password
             // If the password is not sufficiently complex, display an error message
-            if (!currentUser.SetPassword(newPwd))
+            if (!currentUser.SetPassword(SessionContext.UserRole , newPwd))
             {
                 MessageBox.Show("The new password is not sufficiently complex", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
+            SessionContext.DBContext.UpdateObject(currentUser);
+            SessionContext.Save();
 
             // Indicate that the data is valid
             this.DialogResult = true;

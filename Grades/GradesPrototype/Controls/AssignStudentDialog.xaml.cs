@@ -11,8 +11,9 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
-using GradesPrototype.Data;
 using GradesPrototype.Services;
+using Grades.DataModel;
+using System.Data.Entity;
 
 namespace GradesPrototype.Controls
 {
@@ -30,10 +31,12 @@ namespace GradesPrototype.Controls
         private void Refresh()
         {
             // Find all unassigned students - they have a TeacherID of zero
-            var unassignedStudents = from s in DataSource.Students
-                                     where s.TeacherID == 0
-                                     select s;
+            SessionContext.DBContext.Students.Load();
 
+            var unassignedStudents = from s in SessionContext.DBContext.Students.Expand("User, Grades") 
+                                     where s.TeacherUserId == null
+                                     select s;
+ 
             // If there are no unassigned students, then display the "No unassigned students" message
             // and hide the list of unassigned students
             if (unassignedStudents.Count() == 0)
@@ -64,14 +67,13 @@ namespace GradesPrototype.Controls
         {
             try
             {
-                // Determine which student the user clicked
-                // the StudentID is held in the Tag property of the Button that the user clicked
+                // Determine which student the user clicked using the StudentID held in the Tag property of the Button that the user clicked
                 Button studentClicked = sender as Button;
-                int studentID = (int)studentClicked.Tag;
+                Guid studentID = (Guid)studentClicked.Tag;
 
                 // Find this student in the Students collection
-                Student student = (from s in DataSource.Students
-                                   where s.StudentID == studentID
+                Grades.DataModel.Student student = (from s in SessionContext.DBContext.Students 
+                                   where s.UserId == studentID
                                    select s).First();
 
                 // Prompt the user to confirm that they wish to add this student to their class
@@ -82,16 +84,18 @@ namespace GradesPrototype.Controls
                 if (reply == MessageBoxResult.Yes)
                 {
                     // Get the ID of the currently logged-on teacher
-                    int teacherID = SessionContext.CurrentTeacher.TeacherID;
+                    Guid teacherID = SessionContext.CurrentTeacher.UserId ;
 
-                    // Assign the student to this teacher's class
                     SessionContext.CurrentTeacher.EnrollInClass(student);
+                    
+                    SessionContext.DBContext.UpdateObject(student);
+                    SessionContext.Save();
 
                     // Refresh the display - the newly assigned student should disappear from the list of unassigned students
                     Refresh();
                 }
             }
-            catch (ClassFullException cfe)
+            catch (Grades.DataModel.ClassFullException cfe)
             {
                 MessageBox.Show(String.Format("{0}. Class: {1}", cfe.Message, cfe.ClassName), "Error enrolling student", MessageBoxButton.OK, MessageBoxImage.Error);
             }

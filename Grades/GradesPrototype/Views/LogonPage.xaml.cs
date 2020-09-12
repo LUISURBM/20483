@@ -12,8 +12,9 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using GradesPrototype.Data;
 using GradesPrototype.Services;
+using Grades.DataModel;
+
 
 namespace GradesPrototype.Views
 {
@@ -38,20 +39,19 @@ namespace GradesPrototype.Views
         private void Logon_Click(object sender, RoutedEventArgs e)
         {
             // Find the user in the list of possible users - first check whether the user is a Teacher
-            var teacher = (from Teacher t in DataSource.Teachers
-                           where String.Compare(t.UserName, username.Text) == 0
-                           && t.VerifyPassword(password.Password)
+            var teacher = (from Grades.DataModel.Teacher t in SessionContext.DBContext.Teachers.Expand("User, Students")
+                           where t.User.UserName == username.Text && t.User.UserPassword == password.Password
                            select t).FirstOrDefault();
 
             // If the UserName of the user retrieved by using LINQ is non-empty then the user is a teacher
-            if (teacher != null && !String.IsNullOrEmpty(teacher.UserName))
+            if (teacher != null && !String.IsNullOrEmpty(teacher.User.UserName))
             {
                 // Save the UserID and Role (teacher or student) and UserName in the global context
-                SessionContext.UserID = teacher.TeacherID;
+                SessionContext.UserID = teacher.UserId;
                 SessionContext.UserRole = Role.Teacher;
-                SessionContext.UserName = teacher.UserName;
-                SessionContext.CurrentTeacher = teacher; 
-              
+                SessionContext.UserName = teacher.User.UserName;
+                SessionContext.CurrentTeacher = teacher;
+
                 // Raise the LogonSuccess event and finish
                 LogonSuccess(this, null);
                 return;
@@ -59,26 +59,25 @@ namespace GradesPrototype.Views
             // If the user is not a teacher, check whether the username and password match those of a student
             else
             {
-                var student = (from Student s in DataSource.Students
-                               where String.Compare(s.UserName, username.Text) == 0
-                               && s.VerifyPassword(password.Password)
+                var student = (from Grades.DataModel.Student s in SessionContext.DBContext.Students.Expand("User, Grades")
+                               where s.User.UserName == username.Text && s.User.UserPassword == password.Password 
                                select s).FirstOrDefault();
 
                 // If the UserName of the user retrieved by using LINQ is non-empty then the user is a student
-                if (student != null && !String.IsNullOrEmpty(student.UserName))
+                if (student != null && !String.IsNullOrEmpty(student.User.UserName))
                 {
                     // Save the details of the student in the global context
-                    SessionContext.UserID = student.StudentID;
+                    SessionContext.UserID = student.User.UserId;
                     SessionContext.UserRole = Role.Student;
-                    SessionContext.UserName = student.UserName;
-                    SessionContext.CurrentStudent = student; 
-                    
+                    SessionContext.UserName = student.User.UserName;
+                    SessionContext.CurrentStudent = student;
+
                     // Raise the LogonSuccess event and finish
                     LogonSuccess(this, null);
                     return;
                 }
             }
-
+           
             // If the credentials do not match those for a Teacher or for a Student then they must be invalid
             // Raise the LogonFailed event
             LogonFailed(this, null);

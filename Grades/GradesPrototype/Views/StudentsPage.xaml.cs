@@ -13,9 +13,10 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using GradesPrototype.Data;
 using GradesPrototype.Services;
 using GradesPrototype.Controls;
+using Grades.DataModel;
+using System.Globalization;
 
 namespace GradesPrototype.Views
 {
@@ -32,21 +33,22 @@ namespace GradesPrototype.Views
         #region Display Logic
         public void Refresh()
         {
-            // Find students for the current teacher
-            List<Student> students = new List<Student>();
-            foreach (Student student in DataSource.Students)
-            {
-                if (student.TeacherID == SessionContext.CurrentTeacher.TeacherID)
+            list.Items.Clear();
+
+                // Find students for the current teacher
+                foreach (Grades.DataModel.Student student in SessionContext.DBContext.Students)
                 {
-                    students.Add(student);
+                    if (student.TeacherUserId == SessionContext.CurrentTeacher.UserId)
+                    {
+                        SessionContext.DBContext.LoadProperty(student, "User");
+                        SessionContext.DBContext.LoadProperty(student, "Grades");
+                        list.Items.Add(student);
+                    }
                 }
-            }
 
-            // Bind the collection to the list item template
-            list.ItemsSource = students;
-
-            // Display the class name
-            txtClass.Text = String.Format("Class {0}", SessionContext.CurrentTeacher.Class);
+                // Display the class name
+                txtClass.Text = String.Format("Class {0}", SessionContext.CurrentTeacher.Class);
+            
         }
         #endregion
 
@@ -62,11 +64,11 @@ namespace GradesPrototype.Views
             if (itemClicked != null)
             {
                 // Find out which student was clicked
-                int studentID = (int)itemClicked.Tag;
+                Guid studentID = (Guid)itemClicked.Tag;
                 if (StudentSelected != null)
                 {
                     // Find the details of the student by examining the DataContext of the Button
-                    Student student = (Student)itemClicked.DataContext;
+                    Grades.DataModel.Student student = (Grades.DataModel.Student)itemClicked.DataContext;
 
                     // Raise the StudentSelected event (handled by MainWindow) to display the details for this student
                     StudentSelected(sender, new StudentEventArgs(student));
@@ -87,23 +89,33 @@ namespace GradesPrototype.Views
                 {
                     // When the user closes the form, retrieve the details of the student from the form
                     // and use them to create a new Student object
-                    Student newStudent = new Student();
+                    Grades.DataModel.Student newStudent = new Grades.DataModel.Student();
                     newStudent.FirstName = sd.firstName.Text;
                     newStudent.LastName = sd.lastName.Text;
-                    if (!newStudent.SetPassword(sd.password.Text))
+                    newStudent.User = new User();
+                    if (!newStudent.User.SetPassword(Role.Student, sd.password.Text))
                     {
                         throw new Exception("Password must be at least 6 characters long. Student not created");
                     }
 
                     // Generate the UserName property - lastname with the initial letter of the first name all converted to lowercase
-                    newStudent.UserName = (newStudent.LastName + newStudent.FirstName.Substring(0, 1)).ToLower();
+                    newStudent.User.UserName = (newStudent.LastName + newStudent.FirstName.Substring(0, 1)).ToLower();
 
-                    // Generate a unique ID for the user: Use the maximum StudentID in the Students collection and add 1
-                    newStudent.StudentID = (from s in DataSource.Students
-                                            select s.StudentID).Max() + 1;
+                    // Generate a unique ID for the user
+                    newStudent.UserId = Guid.NewGuid();
+
+                    // Assign a value for the ImageName field
+                    newStudent.ImageName = "No photo";
+
+                    // Generate default values for remaining properties of user object
+                    newStudent.User.ApplicationId = (from Grades.DataModel.User u in SessionContext.DBContext.Users select u.ApplicationId).FirstOrDefault();
+                    newStudent.User.IsAnonymous = false;
+                    newStudent.User.LastActivityDate = DateTime.Now;
+                    newStudent.User.UserId = newStudent.UserId;
 
                     // Add the student to the Students collection
-                    DataSource.Students.Add(newStudent);
+                    SessionContext.DBContext.AddToStudents(newStudent);
+                    SessionContext.Save();
                 }
             }
             catch (Exception ex)
@@ -129,11 +141,37 @@ namespace GradesPrototype.Views
     // EventArgs class for passing Student information to an event
     public class StudentEventArgs : EventArgs
     {
-        public Student Child { get; set; }
+        public Grades.DataModel.Student Child { get; set; }
 
-        public StudentEventArgs(Student s)
+        public StudentEventArgs(Grades.DataModel.Student s)
         {
             Child = s;
+        }
+    }
+
+    // TODO: Exercise 3: Task 1: Create the ImageNameConverter value converter to convert the image name of a student photograph into the URL of the image on the Web server
+    // Converter class for transforming an image name for a photograph into a URL
+    public class ImageNameConverter : IValueConverter
+    {
+        const string webFolder = "http://localhost:1650/Images/Portraits/";
+
+        object IValueConverter.Convert( object value, Type targetType, object parameter, CultureInfo culture )
+        {
+            string fileName = value as string;
+
+            if ( fileName != null )
+            {
+                return string.Format( "{0}{1}", webFolder, fileName );
+            }
+            else
+            {
+                return string.Empty;
+            }
+        }
+
+        object IValueConverter.ConvertBack( object value, Type targetType, object parameter, CultureInfo culture )
+        {
+            throw new NotImplementedException();
         }
     }
 }

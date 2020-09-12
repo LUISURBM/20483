@@ -4,16 +4,16 @@
 winexe
 C#
 .cs
-C:\Users\USER\ws\20483-Programming-in-C-Sharp-master\Allfiles\Mod06\Labfiles\Starter\Exercise 2\GradesPrototype\obj\Debug\
+C:\Users\USER\ws\20483-Programming-in-C-Sharp-master\Allfiles\Mod08\Labfiles\Starter\Exercise 3\GradesPrototype\obj\Debug\
 GradesPrototype
 none
 false
 DEBUG;TRACE
-C:\Users\USER\ws\20483-Programming-in-C-Sharp-master\Allfiles\Mod06\Labfiles\Starter\Exercise 2\GradesPrototype\App.xaml
+C:\Users\USER\ws\20483-Programming-in-C-Sharp-master\Allfiles\Mod08\Labfiles\Starter\Exercise 3\GradesPrototype\App.xaml
 81537159824
-
-17-215464112
-131471567060
+1-806905408
+1851040497
+22131337270
 Controls\AssignStudentDialog.xaml;Controls\ChangePasswordDialog.xaml;Controls\GradeDialog.xaml;Controls\StudentDialog.xaml;MainWindow.xaml;Views\LogonPage.xaml;Views\StudentProfile.xaml;Views\StudentsPage.xaml;
 
 True

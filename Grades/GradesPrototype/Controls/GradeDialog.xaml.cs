@@ -11,7 +11,8 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
-using GradesPrototype.Data;
+using GradesPrototype.Services;
+using Grades.DataModel;
 
 namespace GradesPrototype.Controls
 {
@@ -28,9 +29,12 @@ namespace GradesPrototype.Controls
         private void GradeDialog_Loaded(object sender, RoutedEventArgs e)
         {
             // Display the list of available subjects in the subject ListBox
-            subject.ItemsSource = DataSource.Subjects;
-
-            // Set default values for the assessment date and subject
+            foreach (Subject subj in SessionContext.DBContext.Subjects)
+            {
+                subject.Items.Add(subj.Name);
+            }
+ 
+             // Set default values for the assessment date and subject
             assessmentDate.SelectedDate = DateTime.Now;
             subject.SelectedValue = subject.Items[0];
         }
@@ -38,11 +42,14 @@ namespace GradesPrototype.Controls
         // If the user clicks OK to save the Grade details, validate the information that the user has provided
         private void ok_Click(object sender, RoutedEventArgs e)
         {
-            // Use the validation built into the Grade class to validate the user input
-            // Create a Grade object using the details provided, and trap and report any exceptions that are thrown
+            // Create a Grade object and use it to trap and report any data validation exceptions that are thrown
             try
             {
-                Grade testGrade = new Grade(0, assessmentDate.SelectedDate.Value.ToString("d"), subject.SelectedValue.ToString(), assessmentGrade.Text, comments.Text);
+                Grades.DataModel.Grade testGrade = new Grades.DataModel.Grade();
+
+                testGrade.ValidateAssessmentDate(assessmentDate.SelectedDate.Value);
+
+                testGrade.ValidateAssessmentGrade(assessmentGrade.Text);
             }
             catch (Exception ex)
             {

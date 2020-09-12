@@ -35,11 +35,28 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="EntityFramework">
+      <HintPath>..\packages\EntityFramework.5.0.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Data.Edm, Version=5.8.4.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Data.Edm.5.8.4\lib\net40\Microsoft.Data.Edm.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Data.OData, Version=5.8.4.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Data.OData.5.8.4\lib\net40\Microsoft.Data.OData.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Data.Services.Client, Version=5.8.4.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Data.Services.Client.5.8.4\lib\net40\Microsoft.Data.Services.Client.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Data.Entity" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Spatial, Version=5.8.4.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Spatial.5.8.4\lib\net40\System.Spatial.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -69,8 +86,14 @@
     <Compile Include="Controls\StudentDialog.xaml.cs">
       <DependentUpon>StudentDialog.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Data\DataSource.cs" />
-    <Compile Include="Services\ClassFullException.cs" />
+    <Compile Include="DataModel\Classes.cs" />
+    <Compile Include="DataModel\customGrade.cs" />
+    <Compile Include="DataModel\customTeacher.cs" />
+    <Compile Include="Service References\Grades.DataModel\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.datasvcmap</DependentUpon>
+    </Compile>
     <Compile Include="Services\SessionContext.cs" />
     <Compile Include="Views\LogonPage.xaml.cs">
       <DependentUpon>LogonPage.xaml</DependentUpon>
@@ -86,8 +109,8 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\ChangePasswordDialog.xaml">
-      <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Controls\GradeDialog.xaml">
       <SubType>Designer</SubType>
@@ -105,7 +128,6 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Data\Grade.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -147,9 +169,30 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <AppDesigner Include="Properties\" />
+    <None Include="Service References\Grades.DataModel\service.edmx" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Data\AttachDatabase.sql" />
+    <None Include="Service References\Grades.DataModel\Reference.datasvcmap">
+      <Generator>DataServicesCoreClientGenerator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ServiceReferenceMetadataStorage Include="Service References\Grades.DataModel\">
+      <Type>datasvcmap</Type>
+    </ServiceReferenceMetadataStorage>
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

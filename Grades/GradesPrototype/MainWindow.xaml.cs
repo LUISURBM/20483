@@ -14,9 +14,9 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using GradesPrototype.Controls;
-using GradesPrototype.Data;
 using GradesPrototype.Services;
 using GradesPrototype.Views;
+using Grades.DataModel;
 
 namespace GradesPrototype
 {
@@ -28,8 +28,6 @@ namespace GradesPrototype
         public MainWindow()
         {
             InitializeComponent();
-            DataSource.CreateData();
-            DataSource.Students.Sort();
             GotoLogon();
         }
 
@@ -92,6 +90,13 @@ namespace GradesPrototype
             studentsPage.Visibility = Visibility.Collapsed;
             studentProfile.Visibility = Visibility.Collapsed;
             logonPage.Visibility = Visibility.Visible;
+
+            // Reset all static variables
+            SessionContext.CurrentStudent = null;
+            SessionContext.CurrentTeacher = null;
+            SessionContext.UserID = Guid.Empty;
+            SessionContext.UserName = string.Empty;
+            SessionContext.UserRole = Role.None;
         }
 
         // Handle change password request
@@ -106,7 +111,7 @@ namespace GradesPrototype
                 // When the user closes the dialog by using the OK button, the password should have been changed
                 // Display a message to confirm
                 MessageBox.Show("Password changed", "Password", MessageBoxButton.OK, MessageBoxImage.Information);
-            }            
+            }
         }
 
         // Handle the Back button on the Student view
