@@ -1,8 +1,19 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Mapping Space="C-S" xmlns="urn:schemas-microsoft-com:windows:storage:mapping:CS">
-  <EntityContainerMapping StorageEntityContainer="SchoolGradesDBModelStoreContainer" CdmEntityContainer="SchoolGradesDBEntities">
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="GradesDBModelStoreContainer" CdmEntityContainer="GradesEntities">
+    <EntitySetMapping Name="Users">
+      <EntityTypeMapping TypeName="IsTypeOf(GradesDBModel.User)">
+        <MappingFragment StoreEntitySet="Users">
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="ApplicationId" ColumnName="ApplicationId" />
+          <ScalarProperty Name="UserName" ColumnName="UserName" />
+          <ScalarProperty Name="IsAnonymous" ColumnName="IsAnonymous" />
+          <ScalarProperty Name="LastActivityDate" ColumnName="LastActivityDate" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
     <EntitySetMapping Name="Grades">
-      <EntityTypeMapping TypeName="SchoolGradesDBModel.Grade">
+      <EntityTypeMapping TypeName="IsTypeOf(GradesDBModel.Grade)">
         <MappingFragment StoreEntitySet="Grades">
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="Assessment" ColumnName="Assessment" />
@@ -13,8 +24,17 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="Parents">
+      <EntityTypeMapping TypeName="IsTypeOf(GradesDBModel.Parent)">
+        <MappingFragment StoreEntitySet="Parents">
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+          <ScalarProperty Name="LastName" ColumnName="LastName" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
     <EntitySetMapping Name="Students">
-      <EntityTypeMapping TypeName="SchoolGradesDBModel.Student">
+      <EntityTypeMapping TypeName="IsTypeOf(GradesDBModel.Student)">
         <MappingFragment StoreEntitySet="Students">
           <ScalarProperty Name="UserId" ColumnName="UserId" />
           <ScalarProperty Name="FirstName" ColumnName="FirstName" />
@@ -25,7 +45,7 @@
       </EntityTypeMapping>
     </EntitySetMapping>
     <EntitySetMapping Name="Subjects">
-      <EntityTypeMapping TypeName="SchoolGradesDBModel.Subject">
+      <EntityTypeMapping TypeName="IsTypeOf(GradesDBModel.Subject)">
         <MappingFragment StoreEntitySet="Subjects">
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="Name" ColumnName="Name" />
@@ -33,7 +53,7 @@
       </EntityTypeMapping>
     </EntitySetMapping>
     <EntitySetMapping Name="Teachers">
-      <EntityTypeMapping TypeName="SchoolGradesDBModel.Teacher">
+      <EntityTypeMapping TypeName="IsTypeOf(GradesDBModel.Teacher)">
         <MappingFragment StoreEntitySet="Teachers">
           <ScalarProperty Name="UserId" ColumnName="UserId" />
           <ScalarProperty Name="FirstName" ColumnName="FirstName" />
@@ -42,17 +62,13 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="Users">
-      <EntityTypeMapping TypeName="SchoolGradesDBModel.User">
-        <MappingFragment StoreEntitySet="Users">
-          <ScalarProperty Name="ApplicationId" ColumnName="ApplicationId" />
-          <ScalarProperty Name="UserId" ColumnName="UserId" />
-          <ScalarProperty Name="UserName" ColumnName="UserName" />
-          <ScalarProperty Name="IsAnonymous" ColumnName="IsAnonymous" />
-          <ScalarProperty Name="LastActivityDate" ColumnName="LastActivityDate" />
-          <ScalarProperty Name="UserPassword" ColumnName="UserPassword" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
+    <AssociationSetMapping Name="ParentStudent" TypeName="GradesDBModel.ParentStudent" StoreEntitySet="ParentStudent">
+      <EndProperty Name="Parent">
+        <ScalarProperty Name="UserId" ColumnName="Parents_UserId" />
+      </EndProperty>
+      <EndProperty Name="Student">
+        <ScalarProperty Name="UserId" ColumnName="Students_UserId" />
+      </EndProperty>
+    </AssociationSetMapping>
   </EntityContainerMapping>
 </Mapping>

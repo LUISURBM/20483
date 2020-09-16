@@ -1,148 +1,184 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Schema Namespace="SchoolGradesDBModel" Alias="Self" xmlns="http://schemas.microsoft.com/ado/2006/04/edm" xmlns:p1="http://schemas.microsoft.com/ado/2009/02/edm/annotation">
-  <EntityContainer Name="SchoolGradesDBEntities" p1:LazyLoadingEnabled="true">
-    <EntitySet Name="Grades" EntityType="SchoolGradesDBModel.Grade" />
-    <EntitySet Name="Students" EntityType="SchoolGradesDBModel.Student" />
-    <EntitySet Name="Subjects" EntityType="SchoolGradesDBModel.Subject" />
-    <EntitySet Name="Teachers" EntityType="SchoolGradesDBModel.Teacher" />
-    <EntitySet Name="Users" EntityType="SchoolGradesDBModel.User" />
-    <AssociationSet Name="FK_StudentGrade" Association="SchoolGradesDBModel.FK_StudentGrade">
-      <End Role="Students" EntitySet="Students" />
-      <End Role="Grades" EntitySet="Grades" />
+<Schema Namespace="GradesDBModel" Alias="Self" xmlns="http://schemas.microsoft.com/ado/2009/11/edm" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation">
+  <EntityContainer Name="GradesEntities" annotation:LazyLoadingEnabled="true" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation">
+    <EntitySet Name="Users" EntityType="GradesDBModel.User" />
+    <EntitySet Name="Grades" EntityType="GradesDBModel.Grade" />
+    <EntitySet Name="Parents" EntityType="GradesDBModel.Parent" />
+    <EntitySet Name="Students" EntityType="GradesDBModel.Student" />
+    <EntitySet Name="Subjects" EntityType="GradesDBModel.Subject" />
+    <EntitySet Name="Teachers" EntityType="GradesDBModel.Teacher" />
+    <AssociationSet Name="FK_Parents_diameterUsers" Association="GradesDBModel.FK_Parents_diameterUsers">
+      <End Role="diameterUsers" EntitySet="Users" />
+      <End Role="Parent" EntitySet="Parents" />
     </AssociationSet>
-    <AssociationSet Name="FK_SubjectGrade" Association="SchoolGradesDBModel.FK_SubjectGrade">
-      <End Role="Subjects" EntitySet="Subjects" />
-      <End Role="Grades" EntitySet="Grades" />
+    <AssociationSet Name="FK_Students_diameterUsers" Association="GradesDBModel.FK_Students_diameterUsers">
+      <End Role="diameterUsers" EntitySet="Users" />
+      <End Role="Student" EntitySet="Students" />
     </AssociationSet>
-    <AssociationSet Name="FK_Students_diameterUsers" Association="SchoolGradesDBModel.FK_Students_diameterUsers">
-      <End Role="Users" EntitySet="Users" />
-      <End Role="Students" EntitySet="Students" />
+    <AssociationSet Name="FK_Teachers_diameterUsers" Association="GradesDBModel.FK_Teachers_diameterUsers">
+      <End Role="diameterUsers" EntitySet="Users" />
+      <End Role="Teacher" EntitySet="Teachers" />
     </AssociationSet>
-    <AssociationSet Name="FK_TeacherStudent" Association="SchoolGradesDBModel.FK_TeacherStudent">
-      <End Role="Teachers" EntitySet="Teachers" />
-      <End Role="Students" EntitySet="Students" />
+    <AssociationSet Name="FK_StudentGrade" Association="GradesDBModel.FK_StudentGrade">
+      <End Role="Student" EntitySet="Students" />
+      <End Role="Grade" EntitySet="Grades" />
     </AssociationSet>
-    <AssociationSet Name="FK_Teachers_diameterUsers" Association="SchoolGradesDBModel.FK_Teachers_diameterUsers">
-      <End Role="Users" EntitySet="Users" />
-      <End Role="Teachers" EntitySet="Teachers" />
+    <AssociationSet Name="FK_SubjectGrade" Association="GradesDBModel.FK_SubjectGrade">
+      <End Role="Subject" EntitySet="Subjects" />
+      <End Role="Grade" EntitySet="Grades" />
+    </AssociationSet>
+    <AssociationSet Name="FK_TeacherStudent" Association="GradesDBModel.FK_TeacherStudent">
+      <End Role="Teacher" EntitySet="Teachers" />
+      <End Role="Student" EntitySet="Students" />
+    </AssociationSet>
+    <AssociationSet Name="ParentStudent" Association="GradesDBModel.ParentStudent">
+      <End Role="Parent" EntitySet="Parents" />
+      <End Role="Student" EntitySet="Students" />
     </AssociationSet>
   </EntityContainer>
+  <EntityType Name="User">
+    <Key>
+      <PropertyRef Name="UserId" />
+    </Key>
+    <Property Type="Guid" Name="ApplicationId" Nullable="false" />
+    <Property Type="Guid" Name="UserId" Nullable="false" />
+    <Property Type="String" Name="UserName" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
+    <Property Type="Boolean" Name="IsAnonymous" Nullable="false" />
+    <Property Type="DateTime" Name="LastActivityDate" Nullable="false" />
+    <NavigationProperty Name="Parent" Relationship="GradesDBModel.FK_Parents_diameterUsers" FromRole="diameterUsers" ToRole="Parent" />
+    <NavigationProperty Name="Student" Relationship="GradesDBModel.FK_Students_diameterUsers" FromRole="diameterUsers" ToRole="Student" />
+    <NavigationProperty Name="Teacher" Relationship="GradesDBModel.FK_Teachers_diameterUsers" FromRole="diameterUsers" ToRole="Teacher" />
+  </EntityType>
   <EntityType Name="Grade">
     <Key>
       <PropertyRef Name="Id" />
     </Key>
-    <Property Name="Id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
-    <Property Name="Assessment" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
-    <Property Name="Comments" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
-    <Property Name="AssessmentDate" Type="DateTime" Nullable="false" Precision="3" />
-    <Property Name="SubjectId" Type="Int32" Nullable="false" />
-    <Property Name="StudentUserId" Type="Guid" Nullable="false" />
-    <NavigationProperty Name="Student" Relationship="SchoolGradesDBModel.FK_StudentGrade" FromRole="Grades" ToRole="Students" />
-    <NavigationProperty Name="Subject" Relationship="SchoolGradesDBModel.FK_SubjectGrade" FromRole="Grades" ToRole="Subjects" />
+    <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
+    <Property Type="String" Name="Assessment" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="Comments" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Type="DateTime" Name="AssessmentDate" Nullable="false" />
+    <Property Type="Int32" Name="SubjectId" Nullable="false" />
+    <Property Type="Guid" Name="StudentUserId" Nullable="false" />
+    <NavigationProperty Name="Student" Relationship="GradesDBModel.FK_StudentGrade" FromRole="Grade" ToRole="Student" />
+    <NavigationProperty Name="Subject" Relationship="GradesDBModel.FK_SubjectGrade" FromRole="Grade" ToRole="Subject" />
+  </EntityType>
+  <EntityType Name="Parent">
+    <Key>
+      <PropertyRef Name="UserId" />
+    </Key>
+    <Property Type="Guid" Name="UserId" Nullable="false" />
+    <Property Type="String" Name="FirstName" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="LastName" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="User" Relationship="GradesDBModel.FK_Parents_diameterUsers" FromRole="Parent" ToRole="diameterUsers" />
+    <NavigationProperty Name="Students" Relationship="GradesDBModel.ParentStudent" FromRole="Parent" ToRole="Student" />
   </EntityType>
   <EntityType Name="Student">
     <Key>
       <PropertyRef Name="UserId" />
     </Key>
-    <Property Name="UserId" Type="Guid" Nullable="false" />
-    <Property Name="FirstName" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
-    <Property Name="LastName" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
-    <Property Name="ImageName" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
-    <Property Name="TeacherUserId" Type="Guid" />
-    <NavigationProperty Name="Grades" Relationship="SchoolGradesDBModel.FK_StudentGrade" FromRole="Students" ToRole="Grades" />
-    <NavigationProperty Name="User" Relationship="SchoolGradesDBModel.FK_Students_diameterUsers" FromRole="Students" ToRole="Users" />
-    <NavigationProperty Name="Teacher" Relationship="SchoolGradesDBModel.FK_TeacherStudent" FromRole="Students" ToRole="Teachers" />
+    <Property Type="Guid" Name="UserId" Nullable="false" />
+    <Property Type="String" Name="FirstName" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="LastName" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="ImageName" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Type="Guid" Name="TeacherUserId" />
+    <NavigationProperty Name="User" Relationship="GradesDBModel.FK_Students_diameterUsers" FromRole="Student" ToRole="diameterUsers" />
+    <NavigationProperty Name="Grades" Relationship="GradesDBModel.FK_StudentGrade" FromRole="Student" ToRole="Grade" />
+    <NavigationProperty Name="Teacher" Relationship="GradesDBModel.FK_TeacherStudent" FromRole="Student" ToRole="Teacher" />
+    <NavigationProperty Name="Parents" Relationship="GradesDBModel.ParentStudent" FromRole="Student" ToRole="Parent" />
   </EntityType>
   <EntityType Name="Subject">
     <Key>
       <PropertyRef Name="Id" />
     </Key>
-    <Property Name="Id" Type="Int32" Nullable="false" />
-    <Property Name="Name" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
-    <NavigationProperty Name="Grades" Relationship="SchoolGradesDBModel.FK_SubjectGrade" FromRole="Subjects" ToRole="Grades" />
+    <Property Type="Int32" Name="Id" Nullable="false" />
+    <Property Type="String" Name="Name" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Grades" Relationship="GradesDBModel.FK_SubjectGrade" FromRole="Subject" ToRole="Grade" />
   </EntityType>
   <EntityType Name="Teacher">
     <Key>
       <PropertyRef Name="UserId" />
     </Key>
-    <Property Name="UserId" Type="Guid" Nullable="false" />
-    <Property Name="FirstName" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
-    <Property Name="LastName" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
-    <Property Name="Class" Type="String" Nullable="false" MaxLength="20" Unicode="true" FixedLength="false" />
-    <NavigationProperty Name="Students" Relationship="SchoolGradesDBModel.FK_TeacherStudent" FromRole="Teachers" ToRole="Students" />
-    <NavigationProperty Name="User" Relationship="SchoolGradesDBModel.FK_Teachers_diameterUsers" FromRole="Teachers" ToRole="Users" />
+    <Property Type="Guid" Name="UserId" Nullable="false" />
+    <Property Type="String" Name="FirstName" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="LastName" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="Class" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="User" Relationship="GradesDBModel.FK_Teachers_diameterUsers" FromRole="Teacher" ToRole="diameterUsers" />
+    <NavigationProperty Name="Students" Relationship="GradesDBModel.FK_TeacherStudent" FromRole="Teacher" ToRole="Student" />
   </EntityType>
-  <EntityType Name="User">
-    <Key>
-      <PropertyRef Name="UserId" />
-    </Key>
-    <Property Name="ApplicationId" Type="Guid" Nullable="false" />
-    <Property Name="UserId" Type="Guid" Nullable="false" />
-    <Property Name="UserName" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
-    <Property Name="IsAnonymous" Type="Boolean" Nullable="false" />
-    <Property Name="LastActivityDate" Type="DateTime" Nullable="false" Precision="3" />
-    <Property Name="UserPassword" Type="String" Nullable="false" MaxLength="20" Unicode="true" FixedLength="false" />
-    <NavigationProperty Name="Student" Relationship="SchoolGradesDBModel.FK_Students_diameterUsers" FromRole="Users" ToRole="Students" />
-    <NavigationProperty Name="Teacher" Relationship="SchoolGradesDBModel.FK_Teachers_diameterUsers" FromRole="Users" ToRole="Teachers" />
-  </EntityType>
-  <Association Name="FK_StudentGrade">
-    <End Role="Students" Type="SchoolGradesDBModel.Student" Multiplicity="1" />
-    <End Role="Grades" Type="SchoolGradesDBModel.Grade" Multiplicity="*" />
+  <Association Name="FK_Parents_diameterUsers">
+    <End Type="GradesDBModel.User" Role="diameterUsers" Multiplicity="1" />
+    <End Type="GradesDBModel.Parent" Role="Parent" Multiplicity="0..1" />
     <ReferentialConstraint>
-      <Principal Role="Students">
+      <Principal Role="diameterUsers">
         <PropertyRef Name="UserId" />
       </Principal>
-      <Dependent Role="Grades">
+      <Dependent Role="Parent">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Students_diameterUsers">
+    <End Type="GradesDBModel.User" Role="diameterUsers" Multiplicity="1" />
+    <End Type="GradesDBModel.Student" Role="Student" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="diameterUsers">
+        <PropertyRef Name="UserId" />
+      </Principal>
+      <Dependent Role="Student">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Teachers_diameterUsers">
+    <End Type="GradesDBModel.User" Role="diameterUsers" Multiplicity="1" />
+    <End Type="GradesDBModel.Teacher" Role="Teacher" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="diameterUsers">
+        <PropertyRef Name="UserId" />
+      </Principal>
+      <Dependent Role="Teacher">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_StudentGrade">
+    <End Type="GradesDBModel.Student" Role="Student" Multiplicity="1" />
+    <End Type="GradesDBModel.Grade" Role="Grade" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Student">
+        <PropertyRef Name="UserId" />
+      </Principal>
+      <Dependent Role="Grade">
         <PropertyRef Name="StudentUserId" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
   <Association Name="FK_SubjectGrade">
-    <End Role="Subjects" Type="SchoolGradesDBModel.Subject" Multiplicity="1" />
-    <End Role="Grades" Type="SchoolGradesDBModel.Grade" Multiplicity="*" />
+    <End Type="GradesDBModel.Subject" Role="Subject" Multiplicity="1" />
+    <End Type="GradesDBModel.Grade" Role="Grade" Multiplicity="*" />
     <ReferentialConstraint>
-      <Principal Role="Subjects">
+      <Principal Role="Subject">
         <PropertyRef Name="Id" />
       </Principal>
-      <Dependent Role="Grades">
+      <Dependent Role="Grade">
         <PropertyRef Name="SubjectId" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_Students_diameterUsers">
-    <End Role="Users" Type="SchoolGradesDBModel.User" Multiplicity="1" />
-    <End Role="Students" Type="SchoolGradesDBModel.Student" Multiplicity="0..1" />
-    <ReferentialConstraint>
-      <Principal Role="Users">
-        <PropertyRef Name="UserId" />
-      </Principal>
-      <Dependent Role="Students">
-        <PropertyRef Name="UserId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
   <Association Name="FK_TeacherStudent">
-    <End Role="Teachers" Type="SchoolGradesDBModel.Teacher" Multiplicity="0..1" />
-    <End Role="Students" Type="SchoolGradesDBModel.Student" Multiplicity="*" />
+    <End Type="GradesDBModel.Teacher" Role="Teacher" Multiplicity="0..1" />
+    <End Type="GradesDBModel.Student" Role="Student" Multiplicity="*" />
     <ReferentialConstraint>
-      <Principal Role="Teachers">
+      <Principal Role="Teacher">
         <PropertyRef Name="UserId" />
       </Principal>
-      <Dependent Role="Students">
+      <Dependent Role="Student">
         <PropertyRef Name="TeacherUserId" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_Teachers_diameterUsers">
-    <End Role="Users" Type="SchoolGradesDBModel.User" Multiplicity="1" />
-    <End Role="Teachers" Type="SchoolGradesDBModel.Teacher" Multiplicity="0..1" />
-    <ReferentialConstraint>
-      <Principal Role="Users">
-        <PropertyRef Name="UserId" />
-      </Principal>
-      <Dependent Role="Teachers">
-        <PropertyRef Name="UserId" />
-      </Dependent>
-    </ReferentialConstraint>
+  <Association Name="ParentStudent">
+    <End Type="GradesDBModel.Parent" Role="Parent" Multiplicity="*" />
+    <End Type="GradesDBModel.Student" Role="Student" Multiplicity="*" />
   </Association>
 </Schema>
