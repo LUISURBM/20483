@@ -14,7 +14,7 @@ namespace Grades.WPF
         #region Constructor
         public MainWindow()
         {
-            ServiceUtils utils = new ServiceUtils();
+            ServiceUtils context = new ServiceUtils();
             InitializeComponent();
 
             GotoLogon();
@@ -110,7 +110,7 @@ namespace Grades.WPF
             }
 
             // Databind Name
-            ServiceUtils utils = new ServiceUtils();
+            ServiceUtils context = new ServiceUtils();
 
             try
             {
@@ -118,7 +118,7 @@ namespace Grades.WPF
                 {
                     case "Student":
                         // Get the details of the current user (which must be a student)
-                        var student = await utils.GetStudent(SessionContext.UserName);
+                        var student = await context.GetStudent(SessionContext.UserName);
 
                         // Display the name of the student
                         try
@@ -140,7 +140,7 @@ namespace Grades.WPF
 
                     case "Parent":
                         // Get the details of the current user (which must be a parent)
-                        var parent = await utils.GetParent(SessionContext.UserName);
+                        var parent = await context.GetParent(SessionContext.UserName);
 
                         // Display the name of the parent
                         try
@@ -155,12 +155,12 @@ namespace Grades.WPF
                         } 
 
                         // Find all the students that are children of this parent
-                        await utils.GetStudentsByParent(SessionContext.UserName, OnGetStudentsByParentComplete);                        
+                        await context.GetStudentsByParent(SessionContext.UserName, OnGetStudentsByParentComplete);                        
                         break;
 
                     case "Teacher":
                         // Get the details of the current user (which must be a teacher)
-                        var teacher = await utils.GetTeacher(SessionContext.UserName);
+                        var teacher = await context.GetTeacher(SessionContext.UserName);
 
                         // Display the details for the teacher
                         try

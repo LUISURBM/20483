@@ -34,9 +34,9 @@ namespace Grades.WPF
         {
             StartBusyEvent();
 
-            ServiceUtils utils = new ServiceUtils();
+            ServiceUtils context = new ServiceUtils();
 
-            await utils.GetStudentsByTeacher(SessionContext.UserName, OnGetStudentsByTeacherComplete);
+            await context.GetStudentsByTeacher(SessionContext.UserName, OnGetStudentsByTeacherComplete);
 
             EndBusyEvent();
         }
@@ -142,8 +142,8 @@ namespace Grades.WPF
             MessageBoxResult button = MessageBox.Show("Would you like to remove the student?", "Student", MessageBoxButton.YesNo, MessageBoxImage.Question);
             if (button == MessageBoxResult.Yes)
             {
-                ServiceUtils utils = new ServiceUtils();
-                await utils.RemoveStudent(SessionContext.CurrentTeacher, student.Record);
+                ServiceUtils context = new ServiceUtils();
+                await context.RemoveStudent(SessionContext.CurrentTeacher, student.Record);
                 Refresh();
             }
         }

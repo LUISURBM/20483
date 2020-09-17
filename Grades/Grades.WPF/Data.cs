@@ -125,7 +125,7 @@ namespace Grades.WPF
                     // assessment grade is in the range A-E. Also allow a - or a +
                     if (Assessment != null)
                     {
-                        Match regMatch = Regex.Match(Assessment, @"^[A-E][+-]?$");
+                        Match regMatch = Regex.Match(Assessment, @"^[A-E][+-]?");
                         if (!regMatch.Success)
                         {
                             result = "An assessment must be A - E, with optional + or -";

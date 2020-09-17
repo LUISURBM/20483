@@ -214,7 +214,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Grades.Utilities\Grades.Utilities.csproj">
       <Project>{80d97d17-a0df-4b62-930a-bf9b39140433}</Project>
-      <Name>Grades.Utilities</Name>
+      <Name>WoodgroveGrades.Utilities</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

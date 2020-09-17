@@ -29,8 +29,8 @@ namespace Grades.WPF
         #region Events
         private async void OKButton_Click(object sender, RoutedEventArgs e)
         {
-            ServiceUtils utils = new ServiceUtils();
-            await utils.AddGrade(_grade.Record);
+            ServiceUtils context = new ServiceUtils();
+            await context.AddGrade(_grade.Record);
             this.DialogResult = true;
         }
 

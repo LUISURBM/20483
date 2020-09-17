@@ -1,12 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{3C7C246B-49EC-4C9D-89B1-A31AD290A2F1}"
-	ProjectSection(SolutionItems) = preProject
-		TODO Exercise 2 Task 1.txt = TODO Exercise 2 Task 1.txt
-		TODO Exercise 2 Task 4.txt = TODO Exercise 2 Task 4.txt
-	EndProjectSection
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Grades.DataModel", "Grades.DataModel\Grades.DataModel.csproj", "{65C91E37-695F-40A4-8B04-3D82494C6F6A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Grades.Web", "Grades.Web\Grades.Web.csproj", "{DD71F076-1078-4415-8DB7-B4375F42248F}"

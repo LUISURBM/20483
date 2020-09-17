@@ -24,9 +24,9 @@ namespace Grades.WPF
         #region Refresh
         public async void Refresh()
         {
-            ServiceUtils utils = new ServiceUtils();
+            ServiceUtils context = new ServiceUtils();
 
-            await utils.GetUnassignedStudents(OnGetUnassignedStudentsComplete);
+            await context.GetUnassignedStudents(OnGetUnassignedStudentsComplete);
         }
         #endregion
 
@@ -72,8 +72,8 @@ namespace Grades.WPF
             MessageBoxResult button = MessageBox.Show("Would you like to add the student?", "Student", MessageBoxButton.YesNo, MessageBoxImage.Question);
             if (button == MessageBoxResult.Yes)
             {
-                ServiceUtils utils = new ServiceUtils();
-                await utils.AddStudent(SessionContext.CurrentTeacher, student.Record);
+                ServiceUtils context = new ServiceUtils();
+                await context.AddStudent(SessionContext.CurrentTeacher, student.Record);
                 Refresh();
             }
         }

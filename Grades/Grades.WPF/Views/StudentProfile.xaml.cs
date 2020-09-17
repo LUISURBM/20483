@@ -149,8 +149,8 @@ namespace Grades.WPF
             Grid parentGrid = (sender as GrungeButton).Parent as Grid;
             DateTime dt = (parentGrid.Children[0] as DatePicker).SelectedDate.Value;
 
-            ServiceUtils utils = new ServiceUtils();
-            await utils.UpdateGrade(grade.Record);
+            ServiceUtils context = new ServiceUtils();
+            await context.UpdateGrade(grade.Record);
         }
 
         private void Flip_Click(object sender, MouseButtonEventArgs e)
@@ -241,13 +241,13 @@ namespace Grades.WPF
         {
             try
             {
-                // Use a SaveFileDialog to prompt the user for a filename to save the report as (must be a Word document)
+                // Use a SaveFileDiaolog to prompt the user for a filename to save the report as (must be a Word document)
                 SaveFileDialog dialog = new SaveFileDialog();
-                dialog.Filter = "Word documents|*.docx";
+                dialog.Filter = "XML Files|*.xml";
 
                 // Set the default filename to Grades.txt
                 dialog.FileName = "Grades";
-                dialog.DefaultExt = ".docx";
+                dialog.DefaultExt = ".xml";
 
                 // Display the dialog and get a filename from the user
                 Nullable<bool> result = dialog.ShowDialog();
@@ -539,8 +539,8 @@ namespace Grades.WPF
                     wrapper.InsertCarriageReturn();
                 }
 
-                // Save the Word document
-                wrapper.SaveAs(reportPath);
+                // Encrypt and save the Word document
+                wrapper.EncryptAndSaveToDisk(reportPath);
             }
         }
         #endregion
