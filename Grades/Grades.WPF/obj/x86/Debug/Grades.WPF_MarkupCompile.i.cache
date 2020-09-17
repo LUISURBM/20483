@@ -4,17 +4,17 @@
 winexe
 C#
 .cs
-C:\Users\USER\ws\20483-Programming-in-C-Sharp-master\Allfiles\Mod11\Labfiles\Starter\Exercise 2\Grades.WPF\obj\x86\Debug\
+C:\Users\USER\ws\20483-Programming-in-C-Sharp-master\Allfiles\Mod12\Labfiles\Starter\Exercise 3\Grades.WPF\obj\x86\Debug\
 Grades.WPF
 none
 false
 DEBUG;TRACE
-C:\Users\USER\ws\20483-Programming-in-C-Sharp-master\Allfiles\Mod11\Labfiles\Starter\Exercise 2\Grades.WPF\App.xaml
+C:\Users\USER\ws\20483-Programming-in-C-Sharp-master\Allfiles\Mod12\Labfiles\Starter\Exercise 3\Grades.WPF\App.xaml
 11-1077331355
 
 20-1801154956
-22405155506
+22-521095896
 Controls\AddGradeDialog.xaml;Controls\AddStudentDialog.xaml;Controls\BusyIndicator.xaml;Controls\GrungeButton.xaml;Controls\StudentPhoto.xaml;Controls\SubjectList.xaml;MainWindow.xaml;Themes\Generic.xaml;Views\LogonPage.xaml;Views\StudentProfile.xaml;Views\StudentsPage.xaml;
 
-True
+False
 

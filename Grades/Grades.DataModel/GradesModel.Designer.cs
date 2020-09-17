@@ -1275,7 +1275,8 @@ namespace Grades.Web.Models
         /// <param name="userName">Valor inicial de la propiedad UserName.</param>
         /// <param name="isAnonymous">Valor inicial de la propiedad IsAnonymous.</param>
         /// <param name="lastActivityDate">Valor inicial de la propiedad LastActivityDate.</param>
-        public static User CreateUser(global::System.Guid applicationId, global::System.Guid userId, global::System.String userName, global::System.Boolean isAnonymous, global::System.DateTime lastActivityDate)
+        /// <param name="userPassword">Valor inicial de la propiedad UserPassword.</param>
+        public static User CreateUser(global::System.Guid applicationId, global::System.Guid userId, global::System.String userName, global::System.Boolean isAnonymous, global::System.DateTime lastActivityDate, global::System.String userPassword)
         {
             User user = new User();
             user.ApplicationId = applicationId;
@@ -1283,6 +1284,7 @@ namespace Grades.Web.Models
             user.UserName = userName;
             user.IsAnonymous = isAnonymous;
             user.LastActivityDate = lastActivityDate;
+            user.UserPassword = userPassword;
             return user;
         }
 
@@ -1412,6 +1414,30 @@ namespace Grades.Web.Models
         private global::System.DateTime _LastActivityDate;
         partial void OnLastActivityDateChanging(global::System.DateTime value);
         partial void OnLastActivityDateChanged();
+    
+        /// <summary>
+        /// No hay documentación de metadatos disponible.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.String UserPassword
+        {
+            get
+            {
+                return _UserPassword;
+            }
+            set
+            {
+                OnUserPasswordChanging(value);
+                ReportPropertyChanging("UserPassword");
+                _UserPassword = StructuralObject.SetValidValue(value, false, "UserPassword");
+                ReportPropertyChanged("UserPassword");
+                OnUserPasswordChanged();
+            }
+        }
+        private global::System.String _UserPassword;
+        partial void OnUserPasswordChanging(global::System.String value);
+        partial void OnUserPasswordChanged();
 
         #endregion
 

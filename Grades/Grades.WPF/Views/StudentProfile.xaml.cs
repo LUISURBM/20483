@@ -241,7 +241,7 @@ namespace Grades.WPF
         {
             try
             {
-                // Use a SaveFileDiaolog to prompt the user for a filename to save the report as (must be a Word document)
+                // Use a SaveFileDialog to prompt the user for a filename to save the report as (must be a Word document)
                 SaveFileDialog dialog = new SaveFileDialog();
                 dialog.Filter = "Word documents|*.docx";
 
@@ -513,35 +513,34 @@ namespace Grades.WPF
         // Generate a student grade report as a Word document.
         public void GenerateStudentReport(LocalStudent studentData, string reportPath)
         {
-            // TODO: Exercise 2: Task 3: Ensure that the WordWrapper is disposed when the method finishes
-            using ( var wrapper = new WordWrapper() )
+            // Ensure that the WordWrapper is disposed when the method finishes
+            using (var wrapper = new WordWrapper())
             {
-
                 // Create a new Word document in memory
                 wrapper.CreateBlankDocument();
 
                 // Add a heading to the document
-                wrapper.AppendHeading( String.Format( "Grade Report: {0} {1}", studentData.FirstName, studentData.LastName ) );
+                wrapper.AppendHeading(String.Format("Grade Report: {0} {1}", studentData.FirstName, studentData.LastName));
                 wrapper.InsertCarriageReturn();
                 wrapper.InsertCarriageReturn();
 
                 // Output the details of each grade for the student
-                foreach ( var grade in SessionContext.CurrentGrades )
+                foreach (var grade in SessionContext.CurrentGrades)
                 {
-                    wrapper.AppendText( grade.SubjectName, true, true );
-                    wrapper.InsertCarriageReturn();
-                    wrapper.AppendText( "Assessment: " + grade.Assessment, false, false );
-                    wrapper.InsertCarriageReturn();
-                    wrapper.AppendText( "Date: " + grade.AssessmentDateString, false, false );
-                    wrapper.InsertCarriageReturn();
-                    wrapper.AppendText( "Comment: " + grade.Comments, false, false );
-                    wrapper.InsertCarriageReturn();
+                    // Use the IncludeProcessor to determine which fields in the Grade object are tagged
+                    List<FormatField> itemsToReport = IncludeProcessor.GetItemsToInclude(grade);
+
+                    // Output each tagged item, using the format specified by the properties of the IncludeInReport attribute for each item
+                    foreach (FormatField item in itemsToReport)
+                    {
+                        wrapper.AppendText(item.Label == string.Empty ? item.Value : item.Label + ": " + item.Value, item.IsBold, item.IsUnderlined);
+                        wrapper.InsertCarriageReturn();                       
+                    }
                     wrapper.InsertCarriageReturn();
                 }
 
                 // Save the Word document
-                wrapper.SaveAs( reportPath );
-
+                wrapper.SaveAs(reportPath);
             }
         }
         #endregion

@@ -4,6 +4,7 @@
     <EntitySetMapping Name="Users">
       <EntityTypeMapping TypeName="IsTypeOf(GradesDBModel.User)">
         <MappingFragment StoreEntitySet="Users">
+          <ScalarProperty Name="UserPassword" ColumnName="UserPassword" />
           <ScalarProperty Name="UserId" ColumnName="UserId" />
           <ScalarProperty Name="ApplicationId" ColumnName="ApplicationId" />
           <ScalarProperty Name="UserName" ColumnName="UserName" />

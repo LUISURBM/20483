@@ -1,6 +1,5 @@
-C:\Users\USER\ws\20483-Programming-in-C-Sharp-master\Allfiles\Mod11\Labfiles\Starter\Exercise 2\Grades.Utilities\bin\Debug\Grades.Utilities.dll
-C:\Users\USER\ws\20483-Programming-in-C-Sharp-master\Allfiles\Mod11\Labfiles\Starter\Exercise 2\Grades.Utilities\bin\Debug\Grades.Utilities.pdb
-C:\Users\USER\ws\20483-Programming-in-C-Sharp-master\Allfiles\Mod11\Labfiles\Starter\Exercise 2\Grades.Utilities\obj\Debug\Grades.Utilities.csprojAssemblyReference.cache
-C:\Users\USER\ws\20483-Programming-in-C-Sharp-master\Allfiles\Mod11\Labfiles\Starter\Exercise 2\Grades.Utilities\obj\Debug\Grades.Utilities.csproj.CoreCompileInputs.cache
-C:\Users\USER\ws\20483-Programming-in-C-Sharp-master\Allfiles\Mod11\Labfiles\Starter\Exercise 2\Grades.Utilities\obj\Debug\Grades.Utilities.dll
-C:\Users\USER\ws\20483-Programming-in-C-Sharp-master\Allfiles\Mod11\Labfiles\Starter\Exercise 2\Grades.Utilities\obj\Debug\Grades.Utilities.pdb
+C:\Users\USER\ws\20483-Programming-in-C-Sharp-master\Allfiles\Mod12\Labfiles\Starter\Exercise 3\Grades.Utilities\bin\Debug\Grades.Utilities.dll
+C:\Users\USER\ws\20483-Programming-in-C-Sharp-master\Allfiles\Mod12\Labfiles\Starter\Exercise 3\Grades.Utilities\bin\Debug\Grades.Utilities.pdb
+C:\Users\USER\ws\20483-Programming-in-C-Sharp-master\Allfiles\Mod12\Labfiles\Starter\Exercise 3\Grades.Utilities\obj\Debug\Grades.Utilities.csproj.CoreCompileInputs.cache
+C:\Users\USER\ws\20483-Programming-in-C-Sharp-master\Allfiles\Mod12\Labfiles\Starter\Exercise 3\Grades.Utilities\obj\Debug\Grades.Utilities.dll
+C:\Users\USER\ws\20483-Programming-in-C-Sharp-master\Allfiles\Mod12\Labfiles\Starter\Exercise 3\Grades.Utilities\obj\Debug\Grades.Utilities.pdb
